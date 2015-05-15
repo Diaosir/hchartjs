@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery圆形百分比加载插件 - 站长素材</title>
+ <script src="src/jquery.min.js"></script>
+    <script src="src/jquery.percentageloader-0.1.js"></script>
+    <link rel="stylesheet" href="src/jquery.percentageloader-0.1.css"></script>
+
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      
+      #topLoader {
+        width: 256px;
+        height: 256px;
+        margin-bottom: 32px;
+      }
+      
+      #container {
+        width: 940px;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      #animateButton {
+        width: 256px;
+      }
+    </style>
+  
+  </head>
+  <body>
+    <div id="container">
+      <div id="topLoader">      
+      </div>
+      
+      <button id="animateButton">Animate Loader</button>
+      
+       <script>
+        $(function() {
+          var $topLoader = $("#topLoader").percentageLoader({width: 256, height: 256, controllable : true, progress : 0.5, onProgressUpdate : function(val) {
+              $topLoader.setValue(Math.round(val * 100.0));
+            }});
+
+          var topLoaderRunning = false;
+          $("#animateButton").click(function() {
+            if (topLoaderRunning) {
+              return;
+            }
+            topLoaderRunning = true;
+            $topLoader.setProgress(0);
+            $topLoader.setValue('0kb');
+            var kb = 0;
+            var totalKb = 999;
+            
+            var animateFunc = function() {
+              kb += 17;
+              $topLoader.setProgress(kb / totalKb);
+              $topLoader.setValue(kb.toString() + 'kb');
+              
+              if (kb < totalKb) {
+                setTimeout(animateFunc, 25);
+              } else {
+                topLoaderRunning = false;
+              }
+            }
+            
+            setTimeout(animateFunc, 25);
+            
+          });
+        });      
+      </script>
+    </div>
+<p align="center">适用浏览器：FireFox、Chrome、Safari、Opera、傲游、搜狗. 不支持IE8、360、世界之窗。</p>
+<p align="center">来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+</body>
+</html>
